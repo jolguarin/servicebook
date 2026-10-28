@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -31,7 +33,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * Get the attributes that should be cast.
@@ -54,16 +56,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $initials = Str::initials($this->name, true);
 
         return Str::length($initials) > 1
-            ? Str::substr($initials, 0, 1) . Str::substr($initials, -1)
+            ? Str::substr($initials, 0, 1).Str::substr($initials, -1)
             : $initials;
     }
 
-    public function staffProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function staffProfile(): HasOne
     {
         return $this->hasOne(StaffProfile::class);
     }
 
-    public function bookings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class, 'client_id');
     }

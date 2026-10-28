@@ -18,7 +18,11 @@ enum BookingStatus: string
         };
     }
 
-    /** Statuses a booking may move to from the current one. */
+    /**
+     * Statuses a booking may move to from the current one.
+     *
+     * @return array<int, self>
+     */
     public function allowedTransitions(): array
     {
         return match ($this) {

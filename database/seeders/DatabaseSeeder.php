@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Models\WorkingHour;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -93,7 +92,7 @@ class DatabaseSeeder extends Seeder
                 : fake()->randomElement([BookingStatus::Pending, BookingStatus::Confirmed]);
 
             $booking = Booking::create([
-                'reference_no' => 'SB-'.$start->format('Y').'-'.str_pad($n, 6, '0', STR_PAD_LEFT),
+                'reference_no' => 'SB-'.$start->format('Y').'-'.str_pad((string) $n, 6, '0', STR_PAD_LEFT),
                 'client_id' => $clients->random()->id,
                 'staff_profile_id' => $staffProfile->id,
                 'service_id' => $service->id,
